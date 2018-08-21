@@ -6,6 +6,7 @@ class CreateActivity extends Component {
 
         this.state = {
             name: '',
+            photo_url: ''
         }
     }
     updateActivity = (e) => {

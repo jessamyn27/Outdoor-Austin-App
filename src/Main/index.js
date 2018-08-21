@@ -33,29 +33,29 @@ class Main extends Component {
   }
   // ---------------------------------------------------
 
-  componentDidMount() {
-    this.getActivities().then((activities) => {
-      this.setState({
-        activities: activities.data
-      })
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
+  // componentDidMount() {
+  //   this.getActivities().then((activities) => {
+  //     this.setState({
+  //       activities: activities.data
+  //     })
+  //   }).catch((err) => {
+  //     console.log(err);
+  //   });
+  // }
   // ---------------------------------------------------
 
-  getActivities = async () => {
-    const activities = await fetch('http://localhost:8000/api/activities');
-    const parsedActivities = activities.json();
-    return parsedActivities
-  }
+  // getActivities = async () => {
+  //   const activities = await fetch('http://localhost:8000/api/activities');
+  //   const parsedActivities = activities.json();
+  //   return parsedActivities
+  // }
   // ---------------------------------------------------
 
   addActivity = async (activity, e) => {
     e.preventDefault();
 
     try {
-      const CreateActivity = await fetch('http://localhost:8000/api/activities', {
+      const CreateActivity = await fetch('http://localhost:8000/api/activities/', {
         method : 'POST',
         credentials: 'include',
         body : JSON.stringify(activity),

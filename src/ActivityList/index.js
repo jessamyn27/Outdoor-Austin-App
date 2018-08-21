@@ -1,25 +1,37 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-const ActivityList = (props) => {
+class ActivityList extends Component {
+  constructor(){
+  super();
 
-    const ActivityList = props.activities.map((activity, i) => {
-        return (
-            <li key={activity.id}>
+  this.state = {
+    activities: []
+  }
+}
+  async componentDidMount() {
+    try {
+      const res = await fetch('http://localhost:8000/api/activities/');
+      const activities = await res.json();
+      this.setState({
+        activities
+      })
 
-                <h3>{activity.name}</h3>
-
-                <button onClick={props.deleteActivity.bind(null, activity._id)}>Delete</button>
-                <button onClick={props.showModal.bind(null, activity._id)}>Edit</button>
-
-            </li>
-        )
-    });
-
-    return (
-        <ul>
-            {ActivityList}
-        </ul>
+    } catch(err) {
+      return(err)
+    }
+  }
+  render() {
+    return(
+      <div>
+        {this.state.activities.map(item =>(
+          <div key={item.key}>
+            <h1>{item.name}</h1>
+            <h2>{item.photo_url}</h2>
+          </div>
+        ))}
+      </div>
     )
+  }
 }
 
 export default ActivityList;
