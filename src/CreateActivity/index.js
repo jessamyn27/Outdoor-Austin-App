@@ -17,13 +17,14 @@ class CreateActivity extends Component {
         console.log(this.props, ' this is props');
 
         return (
+          <div>
             <form onSubmit={this.props.addActivity.bind(this, this.state)}>
 
                 <label>
                     Outdoor Activity:
                     <input type="text" name="name"  onChange={this.updateActivity}/>
                 </label>
-                <input type="submit"/>
+                
                 <br></br>
                 <label>
                     Outdoor Photo:
@@ -32,6 +33,7 @@ class CreateActivity extends Component {
 
                 <input type="submit"/>
             </form>
+          </div>
         )
     }
 }

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ActivityList from '../ActivityList';
 import CreateActivity from '../CreateActivity';
 import EditActivity from '../EditActivity';
-
+const Cookies = require('js-cookie')
 // import FeatureList from './FeatureList';
 // import FeatureCreate from './FeatureCreate';
 // import FeatureEdit from './FeatureEdit';
@@ -33,15 +33,18 @@ class Main extends Component {
   }
   // ---------------------------------------------------
 
-  // componentDidMount() {
-  //   this.getActivities().then((activities) => {
-  //     this.setState({
-  //       activities: activities.data
-  //     })
-  //   }).catch((err) => {
-  //     console.log(err);
-  //   });
-  // }
+  async componentDidMount() {
+    try {
+      const res = await fetch('http://localhost:8000/api/activities/');
+      const activities = await res.json();
+      this.setState({
+        activities
+      })
+
+    } catch(err) {
+      return(err)
+    }
+  }
   // ---------------------------------------------------
 
   getActivities = async () => {
@@ -53,14 +56,19 @@ class Main extends Component {
   // ---------------------------------------------------
 
   addActivity = async (activity, e) => {
+    const cookie = Cookies.get('csrftoken')
+    console.log(cookie, ' this is the cookie');
     e.preventDefault();
     console.log('this is addActivity');
     try {
       const createdActivity = await fetch('http://localhost:8000/api/activities/', {
         method : 'POST',
+        credentials: 'include',
         body : JSON.stringify(activity),
         headers : {
-          'Content-Type': 'application/json'
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': cookie
         }
       });
     const createdActivityJson = await createdActivity.json();
@@ -156,6 +164,7 @@ handleFormChange = (e) => {
 // ---------------------------------------------------
 
 render() {
+  console.log(this.state, 'this is state');
   return (<div>
     <h1>Welcome To Outdoor Austin!</h1>
     <h3>Create A List Of Your Favorite Outdoor Activities Or Add To Ours</h3>
