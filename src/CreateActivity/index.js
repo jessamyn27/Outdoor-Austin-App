@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 class CreateActivity extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             name: '',
@@ -18,10 +18,18 @@ class CreateActivity extends Component {
 
         return (
             <form onSubmit={this.props.addActivity.bind(this, this.state)}>
+
                 <label>
-                    Activity Name:
-                    <input type="text" name="name" onChange={this.updateActivity}/>
+                    Outdoor Activity:
+                    <input type="text" name="name"  onChange={this.updateActivity}/>
                 </label>
+                <input type="submit"/>
+                <br></br>
+                <label>
+                    Outdoor Photo:
+                    <input name="photo_url" onChange={this.updateActivity}/>
+                </label>
+
                 <input type="submit"/>
             </form>
         )

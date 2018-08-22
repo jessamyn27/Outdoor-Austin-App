@@ -26,7 +26,7 @@ class ActivityList extends Component {
         {this.state.activities.map(item =>(
           <div key={item.key}>
             <h1>{item.name}</h1>
-            <h2>{item.photo_url}</h2>
+            <img src={item.photo_url} alt=""/>
           </div>
         ))}
       </div>

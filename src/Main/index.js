@@ -44,28 +44,30 @@ class Main extends Component {
   // }
   // ---------------------------------------------------
 
-  // getActivities = async () => {
-  //   const activities = await fetch('http://localhost:8000/api/activities');
-  //   const parsedActivities = activities.json();
-  //   return parsedActivities
-  // }
+  getActivities = async () => {
+
+    const activities = await fetch('http://localhost:8000/api/activities/');
+    const activitiesJson = activities.json();
+    return activitiesJson
+  }
   // ---------------------------------------------------
 
   addActivity = async (activity, e) => {
     e.preventDefault();
-
+    console.log('this is addActivity');
     try {
-      const CreateActivity = await fetch('http://localhost:8000/api/activities/', {
+      const createdActivity = await fetch('http://localhost:8000/api/activities/', {
         method : 'POST',
-        credentials: 'include',
         body : JSON.stringify(activity),
         headers : {
           'Content-Type': 'application/json'
         }
       });
-    const parsedResponse = await CreateActivity.json();
+    const createdActivityJson = await createdActivity.json();
+
+    console.log(createdActivityJson);
     this.setState({
-      activities: [...this.state.activities, parsedResponse.data]
+      activities: [...this.state.activities, createdActivityJson]
     })
   } catch (err) {
     console.log(err);
@@ -73,28 +75,29 @@ class Main extends Component {
 }
 // ---------------------------------------------------
 
-// deleteActivity = async (id, e) => {
-//   e.preventDefault();
-//   console.log('deleteActivity function is being called, this is the id: ,' id);
-//
-//   try {
-//     const deleteActivity = await fetch('http://localhost:8000/' + id, {method: 'DELETE'
-//     credentials: 'include',
-//     });
-//     const parsedResponse = await deleteActivity.json();
-//
-//     if (parsedResponse.status === 200) {
-//       this.setState({
-//         activities: this.state.activities.filter((activity, i) => activity.id !== id)
-//       });
-//     } else {
-//       console.log('there was an error in delete activity');
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }
-// ---------------------------------------------------
+deleteActivity = async (id, e) => {
+
+  e.preventDefault();
+  console.log('deleteActivity function is being called, this is the id:', id);
+
+  try {
+    const deleteActivity = await fetch('http://localhost:8000/api/activities/' + id + '/', {
+      method: 'DELETE',
+    });
+    const parsedResponse = await deleteActivity.json();
+
+    if (parsedResponse.status === 200) {
+      this.setState({
+        activities: this.state.activities.filter((activity, i) => activity.id !== id)
+      });
+    } else {
+      console.log('there was an error in delete activity');
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+// -------------------------------------------------
 
 showModal = (id) => {
   const activityToEdit = this.state.activities.find((activity) => activity._id === id);
@@ -105,7 +108,7 @@ showModal = (id) => {
     activityToEdit: activityToEdit
   });
 }
-// ---------------------------------------------------
+// --------------------------------------------------
 
 closeAndEdit = async (e) => {
   e.preventDefault();
@@ -157,7 +160,8 @@ render() {
     <h1>Welcome To Outdoor Austin!</h1>
     <h3>Create A List Of Your Favorite Outdoor Activities Or Add To Ours</h3>
 
-    <ActivityList activities={this.state.activities} deleteActivity={this.deleteActivity} showModal={this.showModal}/>
+    <ActivityList activities={this.state.activities}
+          deleteActivity={this.deleteActivity} showModal={this.showModal}/>
 
     <CreateActivity addActivity={this.addActivity}/>
 
